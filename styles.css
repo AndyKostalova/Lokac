@@ -1,0 +1,196 @@
+/* ---------- Téma / barvy ---------- */
+:root[data-theme="dark"]{
+  --bg:#0e0e12; --surface:#1a1a22; --surface2:#24242f; --text:#f5f3ef;
+  --dim:#9a98a6; --border:#2e2e3a; --gold:#f4b836; --gold-soft:#3a2f12;
+  --rock:#ff3e74; --rock-soft:#3a1424; --shadow:0 8px 24px rgba(0,0,0,.45);
+}
+:root[data-theme="light"]{
+  --bg:#f3ead8; --surface:#fffdf8; --surface2:#f6eede; --text:#1d1a15;
+  --dim:#766c59; --border:#e6dac2; --gold:#cf8d04; --gold-soft:#f6e6bf;
+  --rock:#e0245e; --rock-soft:#fbd9e4; --shadow:0 8px 22px rgba(120,90,30,.18);
+}
+*{box-sizing:border-box; margin:0; padding:0}
+body{margin:0; font-family:system-ui,"Segoe UI",Roboto,sans-serif;}
+
+/* ---------- Appka fullscreen ---------- */
+.app{position:fixed; inset:0; display:flex; flex-direction:column; background:var(--bg); color:var(--text); transition:background .25s,color .25s;}
+
+/* ---------- Záhlaví appky ---------- */
+.head{padding:30px 16px 12px; display:flex; align-items:flex-start; justify-content:space-between;
+  background:linear-gradient(180deg,var(--surface),transparent); flex:0 0 auto}
+.head .title{font-family:"Oswald","Arial Narrow",Impact,sans-serif; text-transform:uppercase}
+.head .title b{font-size:27px; letter-spacing:1px; display:block; line-height:1}
+.head .title b i{color:var(--gold); font-style:normal}
+.head .title b em{color:var(--rock); font-style:normal}
+.head .title small{color:var(--dim); font-size:11px; letter-spacing:1.5px}
+.theme-btn{background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; flex:0 0 auto}
+
+/* ---------- Obsah / scroll ---------- */
+.body{flex:1 1 auto; overflow-y:auto; padding:4px 14px 90px}
+.body::-webkit-scrollbar{width:0}
+
+/* ---------- Hledání + filtry ---------- */
+.search{display:flex; align-items:center; gap:8px; background:var(--surface);
+  border:1px solid var(--border); border-radius:14px; padding:10px 12px; margin:6px 0 10px}
+.search input{flex:1; background:transparent; border:none; color:var(--text); font-size:14px; outline:none}
+.search .ic{color:var(--dim)}
+.seg{display:flex; gap:6px; overflow-x:auto; padding-bottom:8px; margin-bottom:6px}
+.seg::-webkit-scrollbar{height:0}
+.chip{flex:0 0 auto; background:var(--surface); border:1px solid var(--border); color:var(--dim);
+  padding:7px 13px; border-radius:999px; font-size:12.5px; cursor:pointer; white-space:nowrap; font-weight:600}
+.chip.active{background:var(--gold); color:#1a1407; border-color:var(--gold)}
+.selrow{display:flex; gap:8px; margin-bottom:8px}
+.selrow select{flex:1; background:var(--surface); border:1px solid var(--border); color:var(--text);
+  padding:8px 10px; border-radius:11px; font-size:12.5px; outline:none}
+.count{font-size:11.5px; color:var(--dim); margin:0 2px 10px; display:flex; justify-content:space-between}
+.count a{color:var(--rock); cursor:pointer; text-decoration:none}
+
+/* ---------- Sekce pivovaru ---------- */
+.brew{margin-bottom:12px; background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; overflow:hidden; box-shadow:var(--shadow)}
+.brew-head{display:flex; align-items:center; gap:12px; padding:12px; cursor:pointer; position:relative}
+.brew-head::before{content:""; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--accent)}
+.logo{width:42px; height:42px; border-radius:11px; flex:0 0 auto; display:flex; align-items:center;
+  justify-content:center; font-family:"Oswald",Impact,sans-serif; font-weight:700; font-size:15px;
+  color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4); letter-spacing:.5px}
+.brew-head .bn{flex:1}
+.brew-head .bn b{font-size:15px; display:block}
+.brew-head .bn small{color:var(--dim); font-size:11.5px}
+.prog{display:flex; align-items:center; gap:7px}
+.prog .bar{width:46px; height:6px; border-radius:3px; background:var(--border); overflow:hidden}
+.prog .bar i{display:block; height:100%; background:var(--gold)}
+.prog small{font-size:10.5px; color:var(--dim)}
+.caret{color:var(--dim); transition:transform .2s; font-size:12px}
+.brew.open .caret{transform:rotate(90deg)}
+.beers{display:none; padding:0 10px 8px}
+.brew.open .beers{display:block}
+
+/* ---------- Karta piva ---------- */
+.beer{display:flex; align-items:center; gap:10px; padding:11px 8px; border-top:1px solid var(--border)}
+.beer .info{flex:1; min-width:0; cursor:pointer}
+.beer .info b{font-size:13.5px; display:block; line-height:1.25}
+.beer .meta{display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; align-items:center}
+.tag{font-size:10px; padding:2px 7px; border-radius:6px; background:var(--surface2); color:var(--dim); font-weight:600}
+.tag.abv{background:var(--gold-soft); color:var(--gold)}
+.tag.naf{background:var(--rock-soft); color:var(--rock)}
+.stars-mini{color:var(--gold); font-size:11px; letter-spacing:1px}
+.cnt{background:var(--rock); color:#fff; font-size:10.5px; font-weight:800; padding:2px 7px; border-radius:999px}
+.heart{color:var(--rock); font-size:13px}
+.plus{flex:0 0 auto; width:44px; height:44px; border-radius:13px; border:none; cursor:pointer;
+  background:linear-gradient(160deg,var(--gold),#e89a12); color:#1a1407; font-weight:800; font-size:20px;
+  display:flex; align-items:center; justify-content:center; position:relative; box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.plus:active{transform:scale(.9)}
+.tapdle{padding:11px 8px; border-top:1px solid var(--border); display:flex; gap:10px; align-items:center; color:var(--dim); font-size:12.5px}
+
+.foam{position:absolute; inset:0; border-radius:13px; overflow:hidden; pointer-events:none}
+.foam i{position:absolute; bottom:0; left:0; right:0; height:0; background:rgba(255,255,255,.55); animation:fill .5s ease-out}
+@keyframes fill{0%{height:0}60%{height:100%}100%{height:0; opacity:0}}
+
+/* ---------- Detail (spodní list) ---------- */
+.sheet-bg{position:absolute; inset:0; background:rgba(0,0,0,.5); opacity:0; pointer-events:none;
+  transition:opacity .25s; z-index:60}
+.sheet-bg.show{opacity:1; pointer-events:auto}
+.sheet{position:absolute; left:0; right:0; bottom:0; max-height:88%; overflow-y:auto;
+  background:var(--surface); border-radius:24px 24px 0 0; transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.2,.8,.2,1); z-index:61; padding:8px 18px 26px}
+.sheet.show{transform:translateY(0)}
+.grip{width:42px; height:5px; border-radius:3px; background:var(--border); margin:8px auto 14px}
+.d-top{display:flex; gap:14px; align-items:center; margin-bottom:16px}
+.d-top .logo{width:56px; height:56px; border-radius:14px; font-size:19px}
+.d-top b{font-size:19px; display:block; line-height:1.15}
+.d-top small{color:var(--dim); font-size:12.5px}
+.bigplus{width:100%; border:none; cursor:pointer; padding:15px; border-radius:16px; margin-bottom:8px;
+  background:linear-gradient(160deg,var(--gold),#e89a12); color:#1a1407; font-weight:800; font-size:16px;
+  font-family:"Oswald",Impact,sans-serif; letter-spacing:1px; text-transform:uppercase; position:relative; overflow:hidden}
+.bigplus:active{transform:scale(.98)}
+.d-count{text-align:center; color:var(--dim); font-size:13px; margin-bottom:14px}
+.d-count b{color:var(--rock); font-size:15px}
+.d-label{font-size:11px; color:var(--dim); text-transform:uppercase; letter-spacing:1.5px; margin:16px 0 8px; font-weight:700}
+.d-stars{font-size:34px; color:var(--border); cursor:pointer; letter-spacing:4px}
+.d-stars b{color:var(--gold); cursor:pointer}
+.d-stars b:hover{color:var(--gold)}
+.favbtn{display:inline-flex; align-items:center; gap:8px; background:var(--surface2);
+  border:1px solid var(--border); color:var(--text); padding:10px 16px; border-radius:12px; cursor:pointer; font-size:14px; font-weight:600}
+.favbtn.on{background:var(--rock-soft); color:var(--rock); border-color:var(--rock)}
+textarea{width:100%; background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  border-radius:12px; padding:12px; font-size:13.5px; font-family:inherit; resize:vertical; min-height:74px; outline:none}
+.hist{font-size:12.5px; color:var(--dim)}
+.hist .h-item{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border)}
+.hist .h-item button{background:none; border:none; color:var(--rock); cursor:pointer; font-size:12px}
+
+/* ---------- Statistiky ---------- */
+.ring-wrap{display:flex; flex-direction:column; align-items:center; padding:14px 0 6px}
+.ring{position:relative; width:170px; height:170px}
+.ring svg{transform:rotate(-90deg)}
+.ring .mid{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center}
+.ring .mid b{font-family:"Oswald",Impact,sans-serif; font-size:42px; line-height:1; color:var(--gold)}
+.ring .mid small{color:var(--dim); font-size:12px; margin-top:3px}
+.ring .mid em{color:var(--rock); font-style:normal; font-size:11.5px; margin-top:4px; font-weight:700}
+.statcards{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 0}
+.sc{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:13px}
+.sc b{font-family:"Oswald",Impact,sans-serif; font-size:26px; color:var(--gold); display:block}
+.sc small{color:var(--dim); font-size:11.5px}
+.panel{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:14px; margin-bottom:12px}
+.panel h3{font-family:"Oswald",Impact,sans-serif; text-transform:uppercase; font-size:14px; letter-spacing:1px; margin-bottom:12px; color:var(--text)}
+.rank{display:flex; align-items:center; gap:10px; padding:7px 0}
+.rank .n{width:20px; color:var(--dim); font-weight:700; font-size:13px}
+.rank .nm{flex:1; font-size:13px}
+.rank .nm small{color:var(--dim); display:block; font-size:10.5px}
+.rank .v{color:var(--gold); font-size:12.5px; font-weight:700}
+.rank .v.rk{color:var(--rock)}
+.barrow{display:flex; align-items:center; gap:9px; margin:7px 0; font-size:12px}
+.barrow .lbl{width:96px; color:var(--dim); flex:0 0 auto}
+.barrow .track{flex:1; height:9px; background:var(--surface2); border-radius:5px; overflow:hidden}
+.barrow .track i{display:block; height:100%; border-radius:5px; background:var(--gold)}
+.barrow .num{width:18px; text-align:right; color:var(--text); font-weight:700}
+.days{display:flex; align-items:flex-end; gap:10px; height:120px; padding-top:8px}
+.day{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; height:100%; justify-content:flex-end}
+.day .col{width:70%; background:linear-gradient(180deg,var(--gold),#e89a12); border-radius:6px 6px 0 0; min-height:3px}
+.day .dl{font-size:10px; color:var(--dim)}
+.day .dv{font-size:11px; font-weight:700}
+
+/* ---------- Odznaky ---------- */
+.badges{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding-top:6px}
+.badge{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:16px 12px; text-align:center; position:relative; overflow:hidden}
+.badge.locked{opacity:.6}
+.badge .em{font-size:34px; filter:grayscale(1)}
+.badge.unlocked .em{filter:none; animation:pop .4s ease}
+@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.badge b{display:block; font-size:13px; margin:8px 0 3px}
+.badge small{color:var(--dim); font-size:10.5px; line-height:1.3; display:block}
+.badge .pbar{height:5px; background:var(--surface2); border-radius:3px; margin-top:9px; overflow:hidden}
+.badge .pbar i{display:block; height:100%; background:var(--rock)}
+.badge.unlocked{border-color:var(--gold)}
+.badge.unlocked::after{content:"✓"; position:absolute; top:8px; right:10px; color:var(--gold); font-weight:800}
+.badge.unlocked .pbar i{background:var(--gold)}
+
+/* ---------- Nastavení ---------- */
+.setrow{display:flex; align-items:center; justify-content:space-between; background:var(--surface);
+  border:1px solid var(--border); border-radius:14px; padding:14px 15px; margin-bottom:10px}
+.setrow .l b{font-size:14px; display:block}
+.setrow .l small{color:var(--dim); font-size:11.5px}
+.setrow button, .btn{background:var(--surface2); border:1px solid var(--border); color:var(--text);
+  padding:9px 14px; border-radius:10px; cursor:pointer; font-size:13px; font-weight:600}
+.btn.gold{background:var(--gold); color:#1a1407; border-color:var(--gold)}
+.btn.danger{background:var(--rock-soft); color:var(--rock); border-color:var(--rock)}
+.switch{width:52px; height:30px; border-radius:999px; background:var(--surface2); border:1px solid var(--border);
+  position:relative; cursor:pointer}
+.switch i{position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:50%; background:var(--gold); transition:left .2s}
+:root[data-theme="light"] .switch i{left:25px}
+
+/* ---------- Plovoucí tlačítko + ---------- */
+.fab{position:absolute; right:16px; bottom:78px; width:54px; height:54px; border-radius:50%; border:none; z-index:40;
+  background:linear-gradient(160deg,var(--rock),#c91d52); color:#fff; font-size:28px; cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.4); display:flex; align-items:center; justify-content:center}
+.fab:active{transform:scale(.92)}
+
+/* ---------- Spodní lišta ---------- */
+.tabs{flex:0 0 auto; display:flex; background:var(--surface); border-top:1px solid var(--border); padding:8px 4px 14px}
+.tab{flex:1; background:none; border:none; cursor:pointer; color:var(--dim); display:flex; flex-direction:column;
+  align-items:center; gap:3px; font-size:10px; padding:4px}
+.tab .ti{font-size:20px}
+.tab.active{color:var(--gold)}
+.scr{display:none}
+.scr.active{display:block}
+h2.scr-title{font-family:"Oswald",Impact,sans-serif; text-transform:uppercase; letter-spacing:1px; font-size:20px; margin:8px 2px 12px}
