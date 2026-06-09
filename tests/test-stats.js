@@ -29,6 +29,6 @@ describe('stats', () => {
   it('noteCount = piva s neprázdnou poznámkou', () => expect(s.noteCount).toBe(2));
   it('nightOwl = true (ťuknutí v 01:00)', () => expect(s.nightOwl).toBe(true));
   it('daysActive = různé festivalové dny s ťuknutím', () => expect(s.daysActive).toBe(2));
-  it('maxDayCount = max ťuknutí v jednom dni', () => expect(s.maxDayCount).toBe(3));
+  it('maxDayCount = max ťuknutí v jednom dni', () => expect(s.maxDayCount).toBe(2));
   it('dayCounts mapuje den → počet', () => expect(s.dayCounts['2026-06-10']).toBe(2));
 });

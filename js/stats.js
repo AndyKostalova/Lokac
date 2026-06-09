@@ -5,7 +5,6 @@ export function computeStats(beers, userMap, days) {
   const brews = new Set(), styles = new Set(), daySet = new Set();
   const styleCounts = {}; styleKeys.forEach(k => styleCounts[k] = 0);
   const dayCounts = {}; days.forEach(d => dayCounts[d] = 0); let other = 0;
-  const sessionCounts = {}; days.forEach(d => sessionCounts[d] = 0);
 
   real.forEach(b => {
     const d = userMap[b.id]; if (!d) return;
@@ -25,10 +24,6 @@ export function computeStats(beers, userMap, days) {
       if (dayCounts[day] != null) { dayCounts[day]++; daySet.add(day); } else other++;
       const hr = parseInt(t.slice(11, 13), 10);
       if (hr >= 0 && hr < 4) nightOwl = true;
-      // festival session: hours 0-3 belong to the previous festival day
-      const dayIdx = days.indexOf(day);
-      const sessionDay = (hr < 4 && dayIdx > 0) ? days[dayIdx - 1] : day;
-      if (sessionCounts[sessionDay] != null) sessionCounts[sessionDay]++;
     });
   });
 
@@ -41,7 +36,7 @@ export function computeStats(beers, userMap, days) {
     if (t === list.length) anyComplete = true;
   });
 
-  const maxDayCount = Math.max(0, ...days.map(d => sessionCounts[d]));
+  const maxDayCount = Math.max(0, ...days.map(d => dayCounts[d]));
   return {
     tasted, total: real.length, totalDrinks, rated, nealkoTasted, favCount, noteCount,
     maxBeerTaps, nightOwl, maxDayCount, styleCounts,
