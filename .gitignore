@@ -1,0 +1,6 @@
+# OS
+Thumbs.db
+.DS_Store
+# editor
+.vscode/
+# nic dalšího – appka nemá build artefakty
