@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8"><title>Ikona Lokáč</title></head>
+<body style="background:#222;color:#eee;font-family:sans-serif;padding:16px">
+<canvas id="c" width="512" height="512"></canvas>
+<div><button onclick="dl(192,'icon-192.png')">Stáhnout 192</button>
+<button onclick="dl(512,'icon-512.png')">Stáhnout 512</button>
+<button onclick="dl(512,'icon-maskable-512.png',true)">Stáhnout maskable 512</button></div>
+<script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+function round(rx,ry,w,h,r){x.beginPath();x.moveTo(rx+r,ry);x.arcTo(rx+w,ry,rx+w,ry+h,r);x.arcTo(rx+w,ry+h,rx,ry+h,r);x.arcTo(rx,ry+h,rx,ry,r);x.arcTo(rx,ry,rx+w,ry,r);x.closePath();}
+function draw(maskable){
+  x.clearRect(0,0,512,512);
+  // pozadí
+  if(maskable){ x.fillStyle='#0e0e12'; x.fillRect(0,0,512,512); }
+  else { x.fillStyle='#16161c'; round(40,40,432,432,80); x.fill(); }
+  const pad=maskable?150:120;
+  const w=512-2*pad;
+  // sklenice (půllitr)
+  x.fillStyle='#f4b836'; round(pad,168,w,232,22); x.fill();
+  // pěna
+  x.fillStyle='#fff7e6'; x.beginPath();
+  x.arc(pad+w*0.18,166,40,0,7); x.arc(pad+w*0.5,150,52,0,7); x.arc(pad+w*0.82,166,42,0,7);
+  x.fill();
+  x.fillRect(pad,150,w,22);
+  // blesk (rock)
+  x.fillStyle='#ff3e74'; x.beginPath();
+  x.moveTo(286,196); x.lineTo(238,316); x.lineTo(282,316); x.lineTo(250,408);
+  x.lineTo(336,272); x.lineTo(292,272); x.closePath(); x.fill();
+}
+function dl(size,name,maskable){const t=document.createElement('canvas');t.width=t.height=size;const tx=t.getContext('2d');draw(maskable);tx.drawImage(c,0,0,size,size);const a=document.createElement('a');a.href=t.toDataURL('image/png');a.download=name;a.click();}
+draw(false);
+</script></body></html>
