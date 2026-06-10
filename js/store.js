@@ -1,6 +1,6 @@
 const KEY = 'lokac_v1';
 
-function blank() { return { v: 1, theme: 'dark', beers: {}, custom: [] }; }
+function blank() { return { v: 1, theme: 'dark', beers: {}, custom: [], spins: 0, wheelPicked: [] }; }
 
 export function createStore(storage = window.localStorage) {
   let state;
@@ -9,6 +9,8 @@ export function createStore(storage = window.localStorage) {
   if (!state.beers) state.beers = {};
   if (!state.custom) state.custom = [];
   if (!state.theme) state.theme = 'dark';
+  if (typeof state.spins !== 'number') state.spins = 0;
+  if (!Array.isArray(state.wheelPicked)) state.wheelPicked = [];
 
   function persist() { storage.setItem(KEY, JSON.stringify(state)); }
   function rec(id) {
@@ -32,6 +34,11 @@ export function createStore(storage = window.localStorage) {
     getTheme() { return state.theme; },
     setTheme(t) { state.theme = t; persist(); },
 
+    getSpins() { return state.spins; },
+    incSpin() { state.spins++; persist(); return state.spins; },
+    getWheelPicked() { return [...state.wheelPicked]; },
+    addWheelPick(id) { if (!state.wheelPicked.includes(id)) { state.wheelPicked.push(id); persist(); } },
+
     getCustomBeers() { return state.custom.map(b => ({ ...b })); },
     addCustomBeer({ brewery, name, style, abv = '', af = false }) {
       const beer = { id: 'c' + Date.now() + Math.floor(Math.random() * 1000),
@@ -53,6 +60,8 @@ export function createStore(storage = window.localStorage) {
       state = { ...blank(), ...obj };
       if (!state.beers) state.beers = {};
       if (!state.custom) state.custom = [];
+      if (typeof state.spins !== 'number') state.spins = 0;
+      if (!Array.isArray(state.wheelPicked)) state.wheelPicked = [];
       persist();
     },
     reset() { state = blank(); persist(); },

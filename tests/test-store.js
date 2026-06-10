@@ -60,4 +60,31 @@ describe('store', () => {
     s.setRating('b1', 3); s.reset();
     expect(s.getBeer('b1').rating).toBe(0);
   });
+  it('spins: default 0, incSpin zvyšuje a persistuje', () => {
+    const m = mockStorage(); const s = createStore(m);
+    expect(s.getSpins()).toBe(0);
+    s.incSpin(); s.incSpin();
+    expect(s.getSpins()).toBe(2);
+    expect(createStore(m).getSpins()).toBe(2);
+  });
+  it('wheelPicked: addWheelPick bez duplicit', () => {
+    const s = createStore(mockStorage());
+    s.addWheelPick('b1'); s.addWheelPick('b1'); s.addWheelPick('b2');
+    expect(s.getWheelPicked()).toEqual(['b1', 'b2']);
+  });
+  it('export → import obnoví spins i wheelPicked', () => {
+    const m1 = mockStorage(); const s1 = createStore(m1);
+    s1.incSpin(); s1.incSpin(); s1.addWheelPick('b3');
+    const json = s1.exportJSON();
+    const s2 = createStore(mockStorage());
+    s2.importJSON(json);
+    expect(s2.getSpins()).toBe(2);
+    expect(s2.getWheelPicked()).toEqual(['b3']);
+  });
+  it('reset vynuluje spins i wheelPicked', () => {
+    const s = createStore(mockStorage());
+    s.incSpin(); s.addWheelPick('b1'); s.reset();
+    expect(s.getSpins()).toBe(0);
+    expect(s.getWheelPicked()).toEqual([]);
+  });
 });

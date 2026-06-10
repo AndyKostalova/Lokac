@@ -22,6 +22,14 @@ export const ACHIEVEMENTS = [
   { id:'srdcar', em:'💗', name:'Srdcař', desc:'Označ 5 oblíbených', target:5, val:s=>s.favCount },
   { id:'recenzent', em:'📝', name:'Recenzent', desc:'Napiš poznámku k 10 pivům', target:10, val:s=>s.noteCount },
   { id:'vytr', em:'🌅', name:'Vytrvalec', desc:'Pivo v každý den festivalu', target:5, val:s=>s.daysActive },
+  { id:'stastlivec', em:'🎰', name:'Šťastlivec', desc:'Roztoč kolo štěstí poprvé', target:1, val:s=>s.spins },
+  { id:'hazarder', em:'🎲', name:'Hazardér', desc:'Roztoč kolo 25×', target:25, val:s=>s.spins },
+  { id:'jackpot', em:'💰', name:'Jackpot', desc:'Roztoč kolo 50×', target:50, val:s=>s.spins },
+  { id:'osud', em:'🍀', name:'Osud rozhodl', desc:'Ochutnej vylosované pivo', target:1, val:s=>s.wheelTasted },
+  { id:'risk', em:'🃏', name:'Risk je zisk', desc:'Ochutnej 5 vylosovaných piv', target:5, val:s=>s.wheelTasted },
+  { id:'velvyslanec', em:'🏛️', name:'Velvyslanec', desc:'Piva od 20 různých pivovarů', target:20, val:s=>s.brewsTasted },
+  { id:'tank', em:'🛢️', name:'Tank', desc:'Celkem 50 piv', target:50, val:s=>s.totalDrinks },
+  { id:'cidrmaniak', em:'🍏', name:'Cidrmaniak', desc:'Ochutnej 3 cidery', target:3, val:s=>s.styleCounts.cider||0 },
 ];
 
 export function evaluateAchievements(stats) {
