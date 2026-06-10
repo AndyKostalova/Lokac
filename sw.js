@@ -1,10 +1,10 @@
-const CACHE = 'lokac-v1';
+const CACHE = 'lokac-v2';
 const ASSETS = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './js/app.js', './js/data.js', './js/store.js', './js/stats.js',
-  './js/achievements.js', './js/filters.js', './js/format.js',
+  './js/achievements.js', './js/filters.js', './js/format.js', './js/wheel.js',
   './js/screen-list.js', './js/screen-detail.js', './js/screen-stats.js',
-  './js/screen-ach.js', './js/screen-settings.js',
+  './js/screen-ach.js', './js/screen-settings.js', './js/screen-wheel.js',
   './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png',
   // loga doplň v Tasku 16, např. './assets/logos/clock.png', ...
 ];

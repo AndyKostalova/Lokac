@@ -37,7 +37,8 @@ js/
   achievements.js  # ACHIEVEMENTS (22) + evaluateAchievements(stats)
   filters.js       # beerMatches(beer, ud, filter, getBrewName)
   format.js        # shade, starStr, logoHTML, fmtDateTime
-  screen-*.js      # renderList/openDetail/renderStats/renderAch/renderSettings(ctx, body)
+  wheel.js         # wheelPool(beers, userMap, mode) + pickRandom(arr, rng) – čisté, testované
+  screen-*.js      # renderList/openDetail/renderStats/renderAch/renderSettings/renderWheel(ctx, body)
   app.js           # bootstrap, navigace, motiv, registrace SW; vytváří `ctx`
 sw.js, manifest.webmanifest, icons/   # PWA (offline cache, instalace, ikona)
 assets/logos/                          # loga pivovarů (zatím placeholdery – viz README tam)
@@ -76,5 +77,14 @@ náhledy/                               # původní schválený vizuální náhl
 
 ## Data festivalu
 
-23 pivovarů, 103 reálných piv + 2 dlaždice „rotující výčep", 9 stylů, 22 achievementů,
+23 pivovarů, 103 reálných piv + 2 dlaždice „rotující výčep", 9 stylů, 30 achievementů,
 festivalové dny 10.–14. 6. 2026. Zdroj: <https://rockforpeople.cz/en/beer-lineup/>.
+
+## Kolo štěstí
+
+Záložka 🎰 Kolo (`screen-wheel.js`) = casino automat losující náhodné pivo. Přepínač
+„Neochutnaná piva" ↔ „Všechna piva", animované rolování, výsledek + akce (Dal jsem si /
+Detail / Točit znovu). Stav v úložišti: `spins` (počet roztočení) a `wheelPicked` (id
+vylosovaných). Statistiky pro odznaky kola: `computeStats(..., { spins, wheelPicked })`
+→ `s.spins`, `s.wheelTasted`. Achievementy `screen-ach.js` proto volají `computeStats`
+**s meta argumentem** (jinak se odznaky kola neodemknou).
