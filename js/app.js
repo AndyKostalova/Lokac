@@ -5,6 +5,7 @@ import { renderStats } from './screen-stats.js';
 import { renderAch } from './screen-ach.js';
 import { renderSettings } from './screen-settings.js';
 import { openDetail } from './screen-detail.js';
+import { renderWheel } from './screen-wheel.js';
 
 const store = createStore();
 
@@ -45,6 +46,7 @@ function show(scr) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.scr === scr));
   document.getElementById('fab').style.display = scr === 'list' ? 'flex' : 'none';
   if (scr === 'list') renderList(ctx, body);
+  else if (scr === 'wheel') renderWheel(ctx, body);
   else if (scr === 'stats') renderStats(ctx, body);
   else if (scr === 'ach') renderAch(ctx, body);
   else renderSettings(ctx, body);

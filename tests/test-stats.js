@@ -32,3 +32,24 @@ describe('stats', () => {
   it('maxDayCount = max ťuknutí v jednom dni', () => expect(s.maxDayCount).toBe(2));
   it('dayCounts mapuje den → počet', () => expect(s.dayCounts['2026-06-10']).toBe(2));
 });
+
+describe('stats – kolo (meta)', () => {
+  const beersW = [
+    { id: 'b1', brewery: 'clock', style: 'lezak', af: false, tap: false },
+    { id: 'b2', brewery: 'clock', style: 'ipa', af: false, tap: false },
+  ];
+  const daysW = ['2026-06-10'];
+  const umW = { b1: { rating: 0, note: '', fav: false, taps: ['2026-06-10T12:00'] } }; // b1 ochutnáno, b2 ne
+  it('spins se přenese z meta', () => {
+    expect(computeStats(beersW, umW, daysW, { spins: 7, wheelPicked: [] }).spins).toBe(7);
+  });
+  it('wheelTasted = vylosovaná piva, která jsou ochutnaná', () => {
+    const s2 = computeStats(beersW, umW, daysW, { spins: 0, wheelPicked: ['b1', 'b2'] });
+    expect(s2.wheelTasted).toBe(1);
+  });
+  it('bez meta => spins 0, wheelTasted 0', () => {
+    const s2 = computeStats(beersW, umW, daysW);
+    expect(s2.spins).toBe(0);
+    expect(s2.wheelTasted).toBe(0);
+  });
+});

@@ -2,7 +2,7 @@ import { describe, it, expect } from './harness.js';
 import { ACHIEVEMENTS, evaluateAchievements } from '../js/achievements.js';
 
 describe('achievements', () => {
-  it('má 22 odznaků', () => expect(ACHIEVEMENTS.length).toBe(22));
+  it('má 30 odznaků', () => expect(ACHIEVEMENTS.length).toBe(30));
   it('každý má id, em, name, desc, target, val', () => {
     ACHIEVEMENTS.forEach(a => {
       expect(!!(a.id && a.em && a.name && a.desc)).toBeTruthy();
@@ -30,5 +30,19 @@ describe('achievements', () => {
       maxDayCount: 0, styleCounts: {}, brewsTasted: 0, stylesTasted: 0, daysActive: 0,
       anyBreweryComplete: false, bestBrewery: '0/0' });
     expect(res.find(r => r.id === 'kral').unlocked).toBe(true);
+  });
+  it('odznaky kola reagují na spins a wheelTasted', () => {
+    const base = { tasted: 0, total: 103, totalDrinks: 0, rated: 0, nealkoTasted: 0,
+      favCount: 0, noteCount: 0, maxBeerTaps: 0, nightOwl: false, maxDayCount: 0,
+      styleCounts: {}, brewsTasted: 0, stylesTasted: 0, daysActive: 0,
+      anyBreweryComplete: false, bestBrewery: '0/0', spins: 0, wheelTasted: 0 };
+    const none = evaluateAchievements(base);
+    expect(none.find(r => r.id === 'stastlivec').unlocked).toBe(false);
+    const spun = evaluateAchievements({ ...base, spins: 25, wheelTasted: 5 });
+    expect(spun.find(r => r.id === 'stastlivec').unlocked).toBe(true);
+    expect(spun.find(r => r.id === 'hazarder').unlocked).toBe(true);
+    expect(spun.find(r => r.id === 'jackpot').unlocked).toBe(false);
+    expect(spun.find(r => r.id === 'osud').unlocked).toBe(true);
+    expect(spun.find(r => r.id === 'risk').unlocked).toBe(true);
   });
 });

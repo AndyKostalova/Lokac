@@ -20,6 +20,7 @@ while ($listener.IsListening) {
       $ext = [System.IO.Path]::GetExtension($file).ToLower()
       $ct = $types[$ext]; if (-not $ct) { $ct = 'application/octet-stream' }
       $ctx.Response.ContentType = $ct
+      $ctx.Response.Headers['Cache-Control'] = 'no-store'
       $bytes = [System.IO.File]::ReadAllBytes($file)
       $ctx.Response.OutputStream.Write($bytes, 0, $bytes.Length)
     } else { $ctx.Response.StatusCode = 404 }

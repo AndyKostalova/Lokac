@@ -2,7 +2,8 @@ import { computeStats } from './stats.js';
 import { evaluateAchievements } from './achievements.js';
 
 export function renderAch(ctx, body) {
-  const s = computeStats(ctx.allBeers(), ctx.store.getAllBeers(), ctx.DAYS);
+  const s = computeStats(ctx.allBeers(), ctx.store.getAllBeers(), ctx.DAYS,
+    { spins: ctx.store.getSpins(), wheelPicked: ctx.store.getWheelPicked() });
   const res = evaluateAchievements(s);
   const unlocked = res.filter(r => r.unlocked).length;
   body.innerHTML = `<h2 class="scr-title">🏅 Odznaky</h2>

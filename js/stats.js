@@ -1,4 +1,4 @@
-export function computeStats(beers, userMap, days) {
+export function computeStats(beers, userMap, days, meta = { spins: 0, wheelPicked: [] }) {
   const real = beers.filter(b => !b.tap);
   const styleKeys = [...new Set(real.map(b => b.style).filter(Boolean))];
   let tasted = 0, totalDrinks = 0, rated = 0, nealkoTasted = 0, favCount = 0, noteCount = 0, maxBeerTaps = 0, nightOwl = false;
@@ -37,10 +37,14 @@ export function computeStats(beers, userMap, days) {
   });
 
   const maxDayCount = Math.max(0, ...days.map(d => dayCounts[d]));
+  const spins = (meta && meta.spins) || 0;
+  const wheelPicked = (meta && meta.wheelPicked) || [];
+  const wheelTasted = wheelPicked.filter(id => userMap[id] && userMap[id].taps.length > 0).length;
   return {
     tasted, total: real.length, totalDrinks, rated, nealkoTasted, favCount, noteCount,
     maxBeerTaps, nightOwl, maxDayCount, styleCounts,
     brewsTasted: brews.size, stylesTasted: styles.size, daysActive: daySet.size,
     anyBreweryComplete: anyComplete, bestBrewery, dayCounts, other,
+    spins, wheelTasted,
   };
 }
